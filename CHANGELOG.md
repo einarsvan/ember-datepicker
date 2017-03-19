@@ -1,7 +1,5 @@
 # ember-datepicker Changelog
 
-### 3.0.0
-
 ### 2.0.1 (February 10, 2015)
  * [FEATURE #28] Clear text input when date is reset
 

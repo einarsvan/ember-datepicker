@@ -6,7 +6,6 @@ import { test, moduleForComponent } from 'ember-qunit';
 var App, component;
 
 moduleForComponent('date-picker', 'ember-cli-datepicker component', {
-  unit: true,
   setup: function() {
     App = startApp();
   },
@@ -24,31 +23,31 @@ moduleForComponent('date-picker', 'ember-cli-datepicker component', {
  * Test initially displayed date with default and custon `format` and also
  * with the `allowBlank` option
  */
-test("it displays today's date with default format when no date is set", function(assert) {
-  assert.expect(1);
+test("it displays today's date with default format when no date is set", function() {
+  expect(1);
   component = this.subject();
   var formattedDate = moment().format(component.get('format'));
 
-  assert.equal(this.$().val(), formattedDate, "displays date");
+  equal(this.$().val(), formattedDate, "displays date");
 });
 
-test("it displays today's date with custom `format` when no date is set", function(assert) {
-  assert.expect(1);
+test("it displays today's date with custom `format` when no date is set", function() {
+  expect(1);
   component = this.subject({
     format: 'DD.MM.YY'
   });
   var formattedDate = moment().format('DD.MM.YY');
 
-  assert.equal(this.$().val(), formattedDate, "displays date with custom format");
+  equal(this.$().val(), formattedDate, "displays date with custom format");
 });
 
-test("it displays nothing when no date is set and `allowBlank: true`", function(assert) {
-  assert.expect(1);
+test("it displays nothing when no date is set and `allowBlank: true`", function() {
+  expect(1);
   component = this.subject({
     allowBlank: true
   });
 
-  assert.equal(this.$().val(), "", "input is empty");
+  equal(this.$().val(), "", "input is empty");
 });
 
 
@@ -56,62 +55,62 @@ test("it displays nothing when no date is set and `allowBlank: true`", function(
  * Test whether opening and closing the date picker affects the bound date value
  * with and without `allowBlank`
  */
-test("it sets bound date after open + close", function(assert) {
-  assert.expect(2);
+test("it sets bound date after open + close", function() {
+  expect(2);
   component = this.subject({
     allowBlank: false
   });
 
   this.$();
   var todaysDate = moment().format(component.get('valueFormat'));
-  assert.equal(component.get('date'), todaysDate, "has initial date of today");
+  equal(component.get('date'), todaysDate, "has initial date of today");
 
   // simulate open + close of picker
   component.get('_picker').show();
   component.get('_picker').hide();
 
-  assert.ok(component.get('date'), "has a date");
+  ok(component.get('date'), "has a date");
 });
 
-test("it does not set bound date after open + close when `allowBlank: true`", function(assert) {
-  assert.expect(2);
+test("it does not set bound date after open + close when `allowBlank: true`", function() {
+  expect(2);
   component = this.subject({
     allowBlank: true
   });
 
   // initial render
   this.$();
-  assert.equal(component.get('date'), null, "has no initial date");
+  equal(component.get('date'), null, "has no initial date");
 
   // simulate open + close of picker
   component.get('_picker').show();
   component.get('_picker').hide();
 
-  assert.equal(component.get('date'), null, "still has no date");
+  equal(component.get('date'), null, "still has no date");
 });
 
 
 /**
  * Misc
  */
-test("it shows date picker after click on input field", function(assert) {
-  assert.expect(2);
+test("it shows date picker after click on input field", function() {
+  expect(2);
   component = this.subject();
 
   // initial render
   this.$();
 
-  assert.equal($('.pika-single').hasClass('is-hidden'), true, "date picker is initially hidden");
+  equal($('.pika-single').hasClass('is-hidden'), true, "date picker is initially hidden");
 
   click(this.$());
 
   andThen(function() {
-    assert.equal($('.pika-single').hasClass('is-hidden'), false, "date picker is shown");
+    equal($('.pika-single').hasClass('is-hidden'), false, "date picker is shown");
   });
 });
 
-test("it updates displayed value when bound date changes", function(assert) {
-  assert.expect(1);
+test("it updates displayed value when bound date changes", function() {
+  expect(1);
   component = this.subject();
 
   // initial render
@@ -119,11 +118,11 @@ test("it updates displayed value when bound date changes", function(assert) {
 
   component.set('date', moment("2000-01-01").format('X'));
 
-  assert.equal(this.$().val(), "2000-01-01", "displays new date");
+  equal(this.$().val(), "2000-01-01", "displays new date");
 });
 
-test("it updates displayed value to nothing when date is unset after having a previous value and `allowBlank: true`", function(assert) {
-  assert.expect(2);
+test("it updates displayed value to nothing when date is unset after having a previous value and `allowBlank: true`", function() {
+  expect(2);
   component = this.subject({
     allowBlank: true
   });
@@ -133,11 +132,11 @@ test("it updates displayed value to nothing when date is unset after having a pr
 
   component.set('date', moment("2000-01-01").format('X'));
 
-  assert.equal(this.$().val(), "2000-01-01", "displays new date");
+  equal(this.$().val(), "2000-01-01", "displays new date");
 
   component.set('date', null);
 
-  assert.equal(this.$().val(), "", "input is empty");
+  equal(this.$().val(), "", "input is empty");
 });
 
 /**
@@ -145,8 +144,8 @@ test("it updates displayed value to nothing when date is unset after having a pr
  * custom string format and "date" format which causes the output of a real
  * JS Date object
  */
-test("it respects `format` when parsing date value", function(assert) {
-  assert.expect(1);
+test("it respects `format` when parsing date value", function() {
+  expect(1);
   component = this.subject({
     format: 'dddd, MMMM Do YYYY'
   });
@@ -158,12 +157,12 @@ test("it respects `format` when parsing date value", function(assert) {
     // simulate open + close of picker
     component.get('_picker').show();
     component.get('_picker').hide();
-    assert.equal(component.get('date'), moment("2000-01-01").format('X'), "sets correct date");
+    equal(component.get('date'), moment("2000-01-01").format('X'), "sets correct date");
   });
 });
 
-test("it respects `valueFormat: 'date'` when setting date value", function(assert) {
-  assert.expect(1);
+test("it respects `valueFormat: 'date'` when setting date value", function() {
+  expect(1);
   component = this.subject({
     valueFormat: 'date'
   });
@@ -175,12 +174,12 @@ test("it respects `valueFormat: 'date'` when setting date value", function(asser
     component.get('_picker').show();
     component.get('_picker').hide();
 
-    assert.equal(component.get('date').toString(), moment("2000-01-01").toDate().toString(), "sets correct date");
+    equal(component.get('date').toString(), moment("2000-01-01").toDate().toString(), "sets correct date");
   });
 });
 
-test("it respects `valueFormat: 'moment'` when setting date value", function(assert) {
-  assert.expect(1);
+test("it respects `valueFormat: 'moment'` when setting date value", function() {
+  expect(1);
   component = this.subject({
     valueFormat: 'moment'
   });
@@ -192,12 +191,12 @@ test("it respects `valueFormat: 'moment'` when setting date value", function(ass
     component.get('_picker').show();
     component.get('_picker').hide();
 
-    assert.equal(component.get('date').format(), moment("2000-01-01").format(), "sets correct moment object");
+    equal(component.get('date').format(), moment("2000-01-01").format(), "sets correct moment object");
   });
 });
 
-test("it respects `valueFormat` when setting date value", function(assert) {
-  assert.expect(1);
+test("it respects `valueFormat` when setting date value", function() {
+  expect(1);
   component = this.subject({
     valueFormat: 'dddd, MMMM Do YYYY'
   });
@@ -209,15 +208,15 @@ test("it respects `valueFormat` when setting date value", function(assert) {
     component.get('_picker').show();
     component.get('_picker').hide();
 
-    assert.equal(component.get('date'), moment("2000-01-01").format('dddd, MMMM Do YYYY'), "sets currect date");
+    equal(component.get('date'), moment("2000-01-01").format('dddd, MMMM Do YYYY'), "sets currect date");
   });
 });
 
 /**
  * Test `utc` option that creates date objects in UTC mode.
  */
-test("it creates UTC timestamp when `utc: true`", function(assert) {
-  assert.expect(2);
+test("it creates UTC timestamp when `utc: true`", function() {
+  expect(2);
   component = this.subject();
 
   fillIn(this.$(), "2000-01-01");
@@ -232,7 +231,7 @@ test("it creates UTC timestamp when `utc: true`", function(assert) {
 
     // without utc = true, expect timestamp that differs from UTC unix timestamp
     // by the current timezoneOffset in seconds
-    assert.equal(component.get('date'), unixTimestamp2000 + (new Date('2000-01-01')).getTimezoneOffset()*60,
+    equal(component.get('date'), unixTimestamp2000 + (new Date()).getTimezoneOffset()*60,
       "outputs timestamp that differs by timezoneOffset when utc = false");
 
     component.set('utc', true);
@@ -241,13 +240,13 @@ test("it creates UTC timestamp when `utc: true`", function(assert) {
     component.get('_picker').show();
     component.get('_picker').hide();
 
-    assert.equal(component.get('date'), unixTimestamp2000,
+    equal(component.get('date'), unixTimestamp2000,
       "outputs exact timestamp of date when utc = true");
   });
 });
 
-test("it creates UTC date object when `utc: true`", function(assert) {
-  assert.expect(2);
+test("it creates UTC date object when `utc: true`", function() {
+  expect(2);
   component = this.subject({
     valueFormat: 'date'
   });
@@ -259,7 +258,7 @@ test("it creates UTC date object when `utc: true`", function(assert) {
     component.get('_picker').show();
     component.get('_picker').hide();
 
-    assert.equal(component.get('date').toISOString(), moment("2000-01-01").toDate().toISOString(),
+    equal(component.get('date').toISOString(), moment("2000-01-01").toDate().toISOString(),
       "outputs regular date that equals locally generated date when utc = false");
 
     component.set('utc', true);
@@ -268,7 +267,7 @@ test("it creates UTC date object when `utc: true`", function(assert) {
     component.get('_picker').show();
     component.get('_picker').hide();
 
-    assert.equal(component.get('date').toISOString(), "2000-01-01T00:00:00.000Z",
+    equal(component.get('date').toISOString(), "2000-01-01T00:00:00.000Z",
       "outputs regular date that equals utc date when utc = true");
   });
 });
@@ -276,8 +275,8 @@ test("it creates UTC date object when `utc: true`", function(assert) {
 /**
  * Test `yearRange` for both string and array
  */
-test("it sets correct year range for relative string", function(assert) {
-  assert.expect(2);
+test("it sets correct year range for relative string", function() {
+  expect(2);
   component = this.subject({
     yearRange: '-2, 3'
   });
@@ -285,22 +284,22 @@ test("it sets correct year range for relative string", function(assert) {
   var cy = window.moment().year(),
       expectedResult = [cy-2, cy+3];
 
-  assert.equal(component.get('_yearRange')[0], expectedResult[0], "start date");
-  assert.equal(component.get('_yearRange')[1], expectedResult[1], "end date");
+  equal(component.get('_yearRange')[0], expectedResult[0], "start date");
+  equal(component.get('_yearRange')[1], expectedResult[1], "end date");
 });
 
-test("it sets correct year range for absolute string", function(assert) {
-  assert.expect(2);
+test("it sets correct year range for absolute string", function() {
+  expect(2);
   component = this.subject({
     yearRange: '2000, 2020'
   });
 
-  assert.equal(component.get('_yearRange')[0], 2000, "start date");
-  assert.equal(component.get('_yearRange')[1], 2020, "end date");
+  equal(component.get('_yearRange')[0], 2000, "start date");
+  equal(component.get('_yearRange')[1], 2020, "end date");
 });
 
-test("it sets correct year range for relative array", function(assert) {
-  assert.expect(2);
+test("it sets correct year range for relative array", function() {
+  expect(2);
   component = this.subject({
     yearRange: ['-2', 3]
   });
@@ -308,16 +307,16 @@ test("it sets correct year range for relative array", function(assert) {
   var cy = window.moment().year(),
       expectedResult = [cy-2, cy+3];
 
-  assert.equal(component.get('_yearRange')[0], expectedResult[0], "start date");
-  assert.equal(component.get('_yearRange')[1], expectedResult[1], "end date");
+  equal(component.get('_yearRange')[0], expectedResult[0], "start date");
+  equal(component.get('_yearRange')[1], expectedResult[1], "end date");
 });
 
-test("it sets correct year range for absolute array", function(assert) {
-  assert.expect(2);
+test("it sets correct year range for absolute array", function() {
+  expect(2);
   component = this.subject({
     yearRange: [2000, '2020']
   });
 
-  assert.equal(component.get('_yearRange')[0], 2000, "start date");
-  assert.equal(component.get('_yearRange')[1], 2020, "end date");
+  equal(component.get('_yearRange')[0], 2000, "start date");
+  equal(component.get('_yearRange')[1], 2020, "end date");
 });
